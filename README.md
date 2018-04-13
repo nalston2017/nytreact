@@ -1,2 +1,7 @@
-# nytreact
-React-based rendition of a New York Times Article Search application
+# New York Times Search React App
+
+## About This App
+
+
+
+##
