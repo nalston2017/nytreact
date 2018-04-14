@@ -62,35 +62,34 @@ class Books extends Component {
       <Container fluid>
         <Row>
           <Col size="md-6">
-            <Jumbotron>
-              <h1>What Books Should I Read?</h1>
-            </Jumbotron>
-            <form>
-              <Input
-                value={this.state.title}
-                onChange={this.handleInputChange}
-                name="title"
-                placeholder="Title (required)"
+            <Panel
+              heading={this.state.result.Title || "Search for an Article Subject"}
+            >
+              {this.state.result.Title
+                ? <MovieDetail
+                  title={this.state.result.Title}
+                  src={this.state.result.Poster}
+                  director={this.state.result.Director}
+                  genre={this.state.result.Genre}
+                  released={this.state.result.Released}
+                />
+                : <h3>No Results to Display</h3>}
+            </Panel>
+          </Col>
+          <Col size="md-4">
+            <Panel heading="Search">
+              <Search
+                value={this.state.search}
+                handleInputChange={this.handleInputChange}
+                handleFormSubmit={this.handleFormSubmit}
               />
-              <Input
-                value={this.state.author}
-                onChange={this.handleInputChange}
-                name="author"
-                placeholder="Author (required)"
-              />
-              <TextArea
-                value={this.state.synopsis}
-                onChange={this.handleInputChange}
-                name="synopsis"
-                placeholder="Synopsis (Optional)"
-              />
+            </Panel>
               <FormBtn
                 disabled={!(this.state.author && this.state.title)}
                 onClick={this.handleFormSubmit}
               >
                 Submit Book
               </FormBtn>
-            </form>
           </Col>
           <Col size="md-6 sm-12">
             <Jumbotron>
