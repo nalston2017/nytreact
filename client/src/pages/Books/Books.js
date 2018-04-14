@@ -6,31 +6,31 @@ import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
 import { Input, TextArea, FormBtn } from "../../components/Form";
 
-class Books extends Component {
+class Articles extends Component {
   state = {
-    books: [],
+    articles: [],
     title: "",
     author: "",
     synopsis: ""
   };
 
   componentDidMount() {
-    this.loadBooks();
+    this.loadArticles();
   }
 
   // Loads all books  and sets them to this.state.books
-  loadBooks = () => {
-    API.getBooks()
+  loadArticles = () => {
+    API.getArticles()
       .then(res =>
-        this.setState({ books: res.data, title: "", author: "", synopsis: "" })
+        this.setState({ articles: res.data, title: "", author: "", synopsis: "" })
       )
       .catch(err => console.log(err));
   };
 
   // Deletes a book from the database with a given id, then reloads books from the db
   deleteBook = id => {
-    API.deleteBook(id)
-      .then(res => this.loadBooks())
+    API.deleteArticle(id)
+      .then(res => this.loadArticles())
       .catch(err => console.log(err));
   };
 
