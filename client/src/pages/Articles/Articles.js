@@ -5,14 +5,19 @@ import API from "../../utils/API";
 import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
 import { Input, TextArea, FormBtn } from "../../components/Form";
+import { SearchBAR,  } from "../../components/Search-Results"
 
 class Articles extends Component {
+  constructor(){
+    super();
+
   state = {
     articles: [],
-    title: "",
-    author: "",
-    synopsis: ""
-  };
+    searchTerm: "",
+    startYear: "",
+    endYear: ""
+  }
+};
 
   componentDidMount() {
     this.loadArticles();
@@ -28,7 +33,7 @@ class Articles extends Component {
   };
 
   // Deletes a book from the database with a given id, then reloads books from the db
-  deleteBook = id => {
+  deleteArticle = id => {
     API.deleteArticle(id)
       .then(res => this.loadArticles())
       .catch(err => console.log(err));
@@ -42,12 +47,27 @@ class Articles extends Component {
     });
   };
 
+// Submit button for article search
+  handleSearchSubmit = event => {
+    event.preventDefault();
+    console.log("Submitted");
+
+  API.searchArticles(this.state.searchTerm, this.state.startYear, this.state.endYear)
+  .then(res => {
+    this.setState({
+      articles: res.data.response.docs
+    })
+    console.log(articles);
+  })
+  .catch(err => console.log(err));
+};
+
   // When the form is submitted, use the API.saveBook method to save the book data
   // Then reload books from the database
   handleFormSubmit = event => {
     event.preventDefault();
     if (this.state.title && this.state.author) {
-      API.saveBook({
+      API.saveArticle({
         title: this.state.title,
         author: this.state.author,
         synopsis: this.state.synopsis
@@ -62,50 +82,32 @@ class Articles extends Component {
       <Container fluid>
         <Row>
           <Col size="md-6">
-            <Panel
-              heading={this.state.result.Title || "Search for an Article Subject"}
-            >
-              {this.state.result.Title
-                ? <MovieDetail
-                  title={this.state.result.Title}
-                  src={this.state.result.Poster}
-                  director={this.state.result.Director}
-                  genre={this.state.result.Genre}
-                  released={this.state.result.Released}
-                />
-                : <h3>No Results to Display</h3>}
-            </Panel>
+          <SearchBar />
           </Col>
           <Col size="md-4">
-            <Panel heading="Search">
-              <Search
-                value={this.state.search}
-                handleInputChange={this.handleInputChange}
-                handleFormSubmit={this.handleFormSubmit}
-              />
-            </Panel>
-              <FormBtn
-                disabled={!(this.state.author && this.state.title)}
-                onClick={this.handleFormSubmit}
-              >
-                Submit Book
-              </FormBtn>
+          //   <Panel heading="Search">
+          //     <Search
+          //       value={this.state.search}
+          //       handleInputChange={this.handleInputChange}
+          //       handleFormSubmit={this.handleFormSubmit}
+          //     />
+          //   </Panel>
           </Col>
           <Col size="md-6 sm-12">
             <Jumbotron>
-              <h1>Books On My List</h1>
+              <h1>My Favorite Articles</h1>
             </Jumbotron>
-            {this.state.books.length ? (
+            {this.state.articles.length ? (
               <List>
-                {this.state.books.map(book => {
+                {this.state.articles.map(article => {
                   return (
-                    <ListItem key={book._id}>
-                      <a href={"/books/" + book._id}>
+                    <ListItem key={article._id}>
+                      <a href={"/books/" + article._id}>
                         <strong>
-                          {book.title} by {book.author}
+                          {article.title} by {article.author}
                         </strong>
                       </a>
-                      <DeleteBtn onClick={() => this.deleteBook(book._id)} />
+                      <DeleteBtn onClick={() => this.deleteArticle(article._id)} />
                     </ListItem>
                   );
                 })}
