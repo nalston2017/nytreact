@@ -5,7 +5,7 @@ import API from "../../utils/API";
 import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
 import { Input, TextArea, FormBtn } from "../../components/Form";
-import { SearchBAR,  } from "../../components/Search-Results"
+import { SearchBar, SearchResults } from "../../components/Search-Results"
 
 class Articles extends Component {
   constructor(){
@@ -85,13 +85,7 @@ class Articles extends Component {
           <SearchBar />
           </Col>
           <Col size="md-4">
-          //   <Panel heading="Search">
-          //     <Search
-          //       value={this.state.search}
-          //       handleInputChange={this.handleInputChange}
-          //       handleFormSubmit={this.handleFormSubmit}
-          //     />
-          //   </Panel>
+          <SearchResults />
           </Col>
           <Col size="md-6 sm-12">
             <Jumbotron>
